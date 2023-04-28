@@ -69,6 +69,7 @@ class Kernel extends HttpKernel
         'adminMiddleware' => \App\Http\Middleware\AdminMiddleware::class,
         'cors' => \App\Http\Middleware\CorsMiddleware::class,
         'CheckUserRole' => \App\Http\Middleware\CheckUserRole::class,
-        'auth.api' => \App\Http\Middleware\ApiAuthMiddleware::class,
+        'evaluate' => \App\Http\Middleware\EvaluateMiddleware::class,
+
     ];
 }

@@ -5,7 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 
-class ApiAuthMiddleware
+class EvaluateMiddleware
 {
     /**
      * Handle an incoming request.
@@ -16,9 +16,10 @@ class ApiAuthMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-        if (!auth()->check()) {
-            return response()->json(['message' => 'Unauthorized'], 401);
+        if (auth()->check()) {
+            return $next($request);
         }
-        return $next($request);
+        return response()->json(['error' => 'Bạn chưhập'], 422);
+
     }
 }

@@ -62,7 +62,7 @@ Login Admin
  */
 
 Route::get('login/test', function () {
-    return view('Admin.userManagement.test');
+    return 123;
 });
 
 Route::get('category', function () {

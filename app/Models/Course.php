@@ -27,4 +27,14 @@ class Course extends Model
     {
         return $this->belongsTo(Category::class);
     }
+
+    public function reviews()
+    {
+        return $this->hasMany(Evaluate::class, 'idKhoaHoc', 'id');
+    }
+
+    public function user()
+    {
+        return $this->belongsToMany(User::class, 'evaluates', 'idNguoiDung', 'idKhoaHoc')->withPivot('soSaoDanhGia');
+    }
 }

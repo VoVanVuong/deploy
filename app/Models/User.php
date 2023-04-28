@@ -69,4 +69,14 @@ class User extends Authenticatable implements JWTSubject
     {
         return Cache::has('user-is-online' . $this->id);
     }
+
+    public function reviews()
+    {
+        return $this->hasMany(Evaluate::class, 'idNguoiDung', 'id');
+    }
+
+    public function courses()
+    {
+        return $this->belongsToMany(Course::class, 'evaluates', 'idNguoiDung', 'idKhoaHoc')->withPivot('soSaoDanhGia');
+    }
 }

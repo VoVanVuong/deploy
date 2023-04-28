@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\API\CategoryController;
+use App\Http\Controllers\API\EvaluateController;
 use App\Http\Controllers\API\LoginRegisterController;
 use Google\Client as GoogleClient;
 use Google\Service\Oauth2;
@@ -28,10 +29,15 @@ Route::middleware('cors')->group(function () {
         Route::post('post/category', [CategoryController::class, 'createCategory'])->name('createCategory');
         Route::get('get/category', [CategoryController::class, 'getCategory'])->name('getCategory');
         Route::post('post/course', [CategoryController::class, 'createCourse'])->name('createCourse');
+        Route::get('get/course', [CategoryController::class, 'getCourse'])->name('getCourse');
 
     });
 
-    Route::get('get/course', [CategoryController::class, 'getCourse'])->name('getCourse');
+    Route::get('get/getCategories', [CategoryController::class, 'getCategories'])->name('getCategories');
+
+    Route::get('get/courses/show', [CategoryController::class, 'getCoursesShow'])->name('getCoursesShow');
+
+    Route::post('courses/evaluate/{id}', [EvaluateController::class, 'createEvaluate'])->middleware('evaluate');
 
     Route::middleware('auth:sanctum')->group(function () {
         Route::namespace('Api')->group(function () {
@@ -49,6 +55,8 @@ Route::middleware('cors')->group(function () {
     Route::post('login', [LoginRegisterController::class, 'login'])->name('login');
 
 });
+
+// Route::get('get/evaluate/{id}', [EvaluateController::class, 'getEvaluate'])->name('getEvaluate');
 
 Route::get('/auth/google', function () {
     $client = new GoogleClient();

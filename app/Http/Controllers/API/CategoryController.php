@@ -39,6 +39,12 @@ class CategoryController extends Controller
         return response()->json(['data' => $categories], 200);
     }
 
+    public function getCategories()
+    {
+        $categories = Category::all();
+        return response()->json(['data' => $categories], 200);
+    }
+
     public function createCourse(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -46,8 +52,15 @@ class CategoryController extends Controller
             'tenKhoaHoc' => 'required',
             'moTa' => 'required',
             'linkVideo' => 'required',
-            'giaCa' => 'required',
+            'giaCa' => 'required|numeric',
             'trangThai' => 'required',
+        ], [
+            'tenKhoaHoc.required' => 'Tên khóa học không được để trống',
+            'moTa.required' => 'Mô tả không được để trống',
+            'linkVideo.required' => 'Link video không được để trống',
+            'giaCa.required' => 'Gía cả không được để trống',
+            'giaCa.numeric' => 'Gía cả phải là số',
+
         ]);
 
         if ($validator->fails()) {
@@ -76,12 +89,17 @@ class CategoryController extends Controller
         $user = Auth::guard('api')->user();
         $userId = $user->id;
 
-        $category = Category::where('idGiangVien', '=', $userId)->first();
-        $categorys = Category::where('idGiangVien', '=', $userId)->get();
+        $course = Course::where('idGiangVien', '=', $userId)->get();
 
-        $courses = $category->course;
+        return response()->json(['data' => $course]);
 
-        return response()->json(['category' => $categorys, 'categorys' => $courses]);
+    }
+
+    public function getCoursesShow()
+    {
+        $courses = Course::all();
+
+        return response()->json(['data' => $courses]);
 
     }
 
