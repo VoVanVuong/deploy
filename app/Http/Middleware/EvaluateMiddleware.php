@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class EvaluateMiddleware
 {
@@ -16,10 +17,10 @@ class EvaluateMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-        if (auth()->check()) {
+        if (Auth::guard('api')->check()) {
             return $next($request);
         }
-        return response()->json(['error' => 'Bạn chưhập'], 422);
+        return response()->json(['error' => 'Bạn chưa đăng nhập'], 422);
 
     }
 }

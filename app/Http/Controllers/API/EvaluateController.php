@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Models\Course;
+use App\Models\Evaluate;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -11,6 +13,9 @@ use Illuminate\Support\Facades\Validator;
 class EvaluateController extends Controller
 {
 
+    /*
+    course assessment
+     */
     public function createEvaluate(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [
@@ -27,8 +32,17 @@ class EvaluateController extends Controller
         }
 
         $course = Course::findOrFail($id);
+        $numberOfEvaluates = $course->evaluates()->count();
         $user = Auth::guard('api')->user();
         $userId = $user->id;
+
+        $existingEvaluate = Evaluate::where('idNguoiDung', $userId)
+            ->where('idKhoaHoc', $course->id)
+            ->first();
+
+        if ($existingEvaluate) {
+            return response()->json(['message' => 'Bạn đã đánh giá khóa học này rồi'], 422);
+        }
 
         $createEvaluate = Evaluate::create([
             'soSaoDanhGia' => $request->soSaoDanhGia,
@@ -36,7 +50,9 @@ class EvaluateController extends Controller
             'idKhoaHoc' => $course->id,
         ]);
 
-        return response()->json(['message' => 'Đánh giá thành công'], 200);
+        return response()->json([
+            'message' => 'Đánh giá thành công',
+        ], 200);
 
     }
     /*
@@ -44,14 +60,12 @@ class EvaluateController extends Controller
      */
     public function getEvaluate($id)
     {
-        // $evaluates = Evaluate::where('idKhoaHoc', $id)->with('user')->get();
+
         $users = User::with('reviews.course')->whereHas('reviews', function ($query) use ($id) {
             $query->where('idKhoaHoc', $id);
         })->get();
-        // $userReviews = User::whereHas('reviews', function ($query) use ($id) {
-        //     $query->where('idNguoiDung', $id);
-        // })->with('courses')->get();
+        $totalEvaluate = Evaluate::where('idKhoaHoc', $id)->count();
 
-        return json_encode($users);
+        return response()->json(['data' => $users, 'totalEvaluate' => $totalEvaluate]);
     }
 }

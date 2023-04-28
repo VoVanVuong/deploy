@@ -37,7 +37,7 @@ Route::middleware('cors')->group(function () {
 
     Route::get('get/courses/show', [CategoryController::class, 'getCoursesShow'])->name('getCoursesShow');
 
-    Route::post('courses/evaluate/{id}', [EvaluateController::class, 'createEvaluate'])->middleware('evaluate');
+    Route::post('courses/{id}/evaluate', [EvaluateController::class, 'createEvaluate'])->middleware('evaluate');
 
     Route::middleware('auth:sanctum')->group(function () {
         Route::namespace('Api')->group(function () {
@@ -54,9 +54,9 @@ Route::middleware('cors')->group(function () {
 
     Route::post('login', [LoginRegisterController::class, 'login'])->name('login');
 
-});
+    Route::get('get/{id}/evaluate', [EvaluateController::class, 'getEvaluate'])->name('getEvaluate');
 
-// Route::get('get/evaluate/{id}', [EvaluateController::class, 'getEvaluate'])->name('getEvaluate');
+});
 
 Route::get('/auth/google', function () {
     $client = new GoogleClient();
