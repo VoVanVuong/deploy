@@ -108,9 +108,6 @@ class LoginRegisterController extends Controller
         ], 200);
     }
 
-    /*
-    get User API
-     */
     public function getUser(Request $request)
     {
         if (Auth::check()) {
