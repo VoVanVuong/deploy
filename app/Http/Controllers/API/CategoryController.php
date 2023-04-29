@@ -97,10 +97,17 @@ class CategoryController extends Controller
 
     public function getCoursesShow()
     {
-        $courses = Course::all();
+        $courses = Course::paginate(2);
 
         return response()->json(['data' => $courses]);
 
+    }
+
+    public function getCoursesByTeacherId($id)
+    {
+        $courses = Course::where('idGiangVien', $id)->get();
+
+        return response()->json(['data' => $courses]);
     }
 
     protected function validator($request)

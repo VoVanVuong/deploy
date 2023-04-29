@@ -35,6 +35,8 @@ Route::middleware('cors')->group(function () {
 
     Route::get('get/getCategories', [CategoryController::class, 'getCategories'])->name('getCategories');
 
+    Route::get('get/{id}/getCoursesByTeacherId', [CategoryController::class, 'getCoursesByTeacherId'])->name('getCoursesByTeacherId');
+
     Route::get('get/courses/show', [CategoryController::class, 'getCoursesShow'])->name('getCoursesShow');
 
     Route::post('courses/{id}/evaluate', [EvaluateController::class, 'createEvaluate'])->middleware('evaluate');
