@@ -53,7 +53,6 @@ class CategoryController extends Controller
             'moTa' => 'required',
             'linkVideo' => 'required',
             'giaCa' => 'required|numeric',
-            'trangThai' => 'required',
         ], [
             'tenKhoaHoc.required' => 'Tên khóa học không được để trống',
             'moTa.required' => 'Mô tả không được để trống',
