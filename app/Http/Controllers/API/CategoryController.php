@@ -97,7 +97,7 @@ class CategoryController extends Controller
 
     public function getCoursesShow()
     {
-        $courses = Course::paginate(2);
+        $courses = Course::all();
 
         return response()->json(['data' => $courses]);
 
