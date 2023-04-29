@@ -9,9 +9,61 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 class CategoryController extends Controller
 {
+    protected function validator(Request $request)
+    {
+        return Validator::make($request->all(), [
+            'tenDanhMuc' => [
+                'required',
+                'string',
+                Rule::unique('categories'),
+            ],
+            'moTa' => 'required|max:255',
+        ], [
+            'tenDanhMuc.required' => 'Tên danh mục không được để trống',
+            'tenDanhMuc.unique' => 'Tên danh mục đã tồn tại',
+            'moTa.required' => 'Mô tả không được để trống',
+        ]);
+    }
+
+    protected function validatorUpdateCategory(Request $request, $id = null)
+    {
+        return Validator::make($request->all(), [
+            'tenDanhMuc' => [
+                'required',
+                'string',
+                Rule::unique('categories')->ignore($id),
+            ],
+            'moTa' => 'required|max:255',
+        ], [
+            'tenDanhMuc.required' => 'Tên danh mục không được để trống',
+            'tenDanhMuc.unique' => 'Tên danh mục đã tồn tại',
+            'moTa.required' => 'Mô tả không được để trống',
+        ]);
+    }
+
+    protected function validatorCourse(Request $request)
+    {
+
+        return Validator::make($request->all(), [
+
+            'tenKhoaHoc' => 'required',
+            'moTa' => 'required',
+            'linkVideo' => 'required',
+            'giaCa' => 'required|numeric',
+        ], [
+            'tenKhoaHoc.required' => 'Tên khóa học không được để trống',
+            'moTa.required' => 'Mô tả không được để trống',
+            'linkVideo.required' => 'Link video không được để trống',
+            'giaCa.required' => 'Gía cả không được để trống',
+            'giaCa.numeric' => 'Gía cả phải là số',
+
+        ]);
+    }
+
     public function createCategory(Request $request)
     {
         $validator = $this->validator($request);
@@ -47,20 +99,7 @@ class CategoryController extends Controller
 
     public function createCourse(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-
-            'tenKhoaHoc' => 'required',
-            'moTa' => 'required',
-            'linkVideo' => 'required',
-            'giaCa' => 'required|numeric',
-        ], [
-            'tenKhoaHoc.required' => 'Tên khóa học không được để trống',
-            'moTa.required' => 'Mô tả không được để trống',
-            'linkVideo.required' => 'Link video không được để trống',
-            'giaCa.required' => 'Gía cả không được để trống',
-            'giaCa.numeric' => 'Gía cả phải là số',
-
-        ]);
+        $validator = $this->validatorCourse($request);
 
         if ($validator->fails()) {
             return response()->json($validator->errors(), 422);
@@ -109,19 +148,57 @@ class CategoryController extends Controller
         return response()->json(['data' => $courses]);
     }
 
-    protected function validator($request)
+    public function updateCategory(Request $request, $id)
     {
+        $category = Category::findOrFail($id);
+        $user = Auth::guard('api')->user();
 
-        return Validator::make($request->all(), [
+        if ($category->idGiangVien !== $user->id) {
+            return response()->json(['message' => 'Bạn không có quyền cập nhật danh mục này'], 422);
+        }
 
-            'tenDanhMuc' => 'required',
-            'moTa' => 'required',
+        $validator = $this->validatorUpdateCategory($request, $id);
 
-        ], [
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 422);
+        }
 
-            'tenDanhMuc.required' => 'Tên danh mục không để trống',
-            'moTa.required' => 'Mô tả không để trống',
-
+        $category->update([
+            'tenDanhMuc' => $request->tenDanhMuc,
+            'moTa' => $request->moTa,
         ]);
+
+        return response()->json(['message' => 'Cập nhật danh mục thành công'], 200);
     }
+
+    public function updateCourse(Request $request, $id)
+    {
+        $validator = $this->validatorCourse($request);
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 422);
+        }
+
+        $user = Auth::guard('api')->user();
+        $userId = $user->id;
+
+        $course = Course::where('id', $id)
+            ->where('idGiangVien', $userId)
+            ->first();
+
+        if (!$course) {
+            return response()->json(['message' => 'Không tìm thấy khóa học'], 422);
+        }
+
+        $course->update([
+            'tenKhoaHoc' => $request->tenKhoaHoc,
+            'moTa' => $request->moTa,
+            'linkVideo' => $request->linkVideo,
+            'giaCa' => $request->giaCa,
+            'category_id' => $request->category_id,
+        ]);
+
+        return response()->json(['message' => 'Cập nhật khóa học thành công'], 200);
+    }
+
 }

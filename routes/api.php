@@ -3,6 +3,8 @@
 use App\Http\Controllers\API\CategoryController;
 use App\Http\Controllers\API\EvaluateController;
 use App\Http\Controllers\API\LoginRegisterController;
+use App\Http\Controllers\API\SearchController;
+use App\Http\Controllers\API\TeachersController;
 use Google\Client as GoogleClient;
 use Google\Service\Oauth2;
 use Illuminate\Http\Request;
@@ -30,6 +32,8 @@ Route::middleware('cors')->group(function () {
         Route::get('get/category', [CategoryController::class, 'getCategory'])->name('getCategory');
         Route::post('post/course', [CategoryController::class, 'createCourse'])->name('createCourse');
         Route::get('get/course', [CategoryController::class, 'getCourse'])->name('getCourse');
+        Route::put('update/{id}/category', [CategoryController::class, 'updateCategory'])->name('updateCategory');
+        Route::put('update/{id}/course', [CategoryController::class, 'updateCourse'])->name('updateCourse');
 
     });
 
@@ -40,6 +44,10 @@ Route::middleware('cors')->group(function () {
     Route::get('get/courses/show', [CategoryController::class, 'getCoursesShow'])->name('getCoursesShow');
 
     Route::post('courses/{id}/evaluate', [EvaluateController::class, 'createEvaluate'])->middleware('evaluate');
+
+    Route::get('search/course', [SearchController::class, 'searchCourse'])->name('searchCourse');
+
+    Route::get('get/teachers', [TeachersController::class, 'getTeachers'])->name('getTeachers');
 
     Route::middleware('auth:sanctum')->group(function () {
         Route::namespace('Api')->group(function () {
