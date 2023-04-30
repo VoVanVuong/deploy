@@ -35,6 +35,6 @@ class Course extends Model
 
     public function user()
     {
-        return $this->belongsToMany(User::class, 'evaluates', 'idNguoiDung', 'idKhoaHoc')->withPivot('soSaoDanhGia');
+        return $this->belongsToMany(User::class);
     }
 }

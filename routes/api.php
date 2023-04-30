@@ -43,11 +43,21 @@ Route::middleware('cors')->group(function () {
 
     Route::get('get/courses/show', [CategoryController::class, 'getCoursesShow'])->name('getCoursesShow');
 
-    Route::post('courses/{id}/evaluate', [EvaluateController::class, 'createEvaluate'])->middleware('evaluate');
-
     Route::get('search/course', [SearchController::class, 'searchCourse'])->name('searchCourse');
 
     Route::get('get/teachers', [TeachersController::class, 'getTeachers'])->name('getTeachers');
+
+    Route::get('teachers/{id}/courses', [TeachersController::class, 'getACourse'])->name('getACourse');
+
+    Route::middleware('evaluate')->group(function () {
+
+        Route::post('courses/{id}/evaluate', [EvaluateController::class, 'createEvaluate']);
+
+        Route::put('update/user/profile', [TeachersController::class, 'updateUserProfile']);
+
+        Route::post('change/password', [TeachersController::class, 'changePassword']);
+
+    });
 
     Route::middleware('auth:sanctum')->group(function () {
         Route::namespace('Api')->group(function () {

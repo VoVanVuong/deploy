@@ -1,58 +1,31 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
-    <title>Đăng danh mục</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Đăng video mới</title>
 </head>
 
 <body>
-    <h1>Đăng danh mục</h1>
-
-    <form id="category-form">
+    <h1>Đăng video mới</h1>
+    <form action="{{ route('post-video') }}" method="post" enctype="multipart/form-data">
+        @csrf
         <div>
-            <label for="category-name">Tên danh mục:</label>
-            <input type="text" id="category-name" name="tenDanhMuc">
-            <label for="category-name">Tên danh mục:</label>
-            <input type="text" id="category-mota" name="moTa">
+            <label for="title">Tiêu đề:</label>
+            <input type="text" name="title" id="title">
         </div>
         <div>
-            <button type="submit">Đăng danh mục</button>
+            <label for="description">Mô tả:</label>
+            <textarea name="description" id="description"></textarea>
         </div>
+        <div>
+            <label for="video">Video:</label>
+            <input type="file" name="video" id="video">
+        </div>
+        <button type="submit">Đăng</button>
     </form>
-
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script>
-        $(document).ready(function() {
-            $('#category-form').submit(function(event) {
-                event.preventDefault();
-
-                var categoryName = $('#category-name').val();
-                var categorymota = $('#category-mota').val();
-
-                var data = {
-                    tenDanhMuc: categoryName,
-                    moTa: categorymota
-                };
-
-                $.ajax({
-                    url: 'http://127.0.0.1:8000/api/post/category',
-                    method: 'POST',
-                    data: data,
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
-                        'Authorization': 'Bearer ' + localStorage.getItem('access_token')
-                    },
-                    success: function(response) {
-                        console.log(response);
-                    },
-                    error: function(error) {
-                        console.log(error);
-                    }
-                });
-            });
-        });
-    </script>
 </body>
 
 </html>

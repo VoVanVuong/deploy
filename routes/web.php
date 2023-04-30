@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\AddUserController;
 use App\Http\Controllers\Admin\AdminLoginController;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Spatie\Analytics\Period;
 
@@ -69,6 +70,9 @@ Route::get('category', function () {
     return view('Admin.userManagement.category');
 });
 
+Route::post('category/post', function (Request $request) {
+    dd($request->all());
+})->name('post-video');
 Route::get('course', function () {
     return view('Admin.userManagement.testkhoa');
 });
