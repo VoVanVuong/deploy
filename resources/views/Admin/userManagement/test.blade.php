@@ -1,67 +1,38 @@
-<!DOCTYPE html>
-<html>
+<form method="POST" action="{{ route('updateUserProfile', 9) }}" enctype="multipart/form-data">
+    @csrf
+    <div>
+        <label for="soDienThoai">Số điện thoại:</label>
+        <input type="text" name="soDienThoai" id="soDienThoai">
+    </div>
 
-<head>
-    <title>Login</title>
-    <style>
-        form {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin-top: 100px;
-        }
+    <div>
+        <label for="hoTen">Họ tên:</label>
+        <input type="text" name="hoTen" id="hoTen">
+    </div>
 
-        input {
-            margin: 10px;
-            padding: 5px;
-            width: 300px;
-            border: none;
-            border-radius: 5px;
-            box-shadow: 0px 0px 5px #ccc;
-        }
+    {{-- <div>
+        <label for="gioiTinh">Giới tính:</label>
+        <select name="gioiTinh" id="gioiTinh">
+            <option value="Nam" {{ $user->gioiTinh == 'Nam' ? 'selected' : '' }}>Nam</option>
+            <option value="Nữ" {{ $user->gioiTinh == 'Nữ' ? 'selected' : '' }}>Nữ</option>
+            <option value="Khác" {{ $user->gioiTinh == 'Khác' ? 'selected' : '' }}>Khác</option>
+        </select>
+    </div> --}}
 
-        button {
-            padding: 10px;
-            width: 100px;
-            border: none;
-            border-radius: 5px;
-            background-color: #4CAF50;
-            color: white;
-            font-size: 16px;
-            cursor: pointer;
-        }
-    </style>
-</head>
+    <div>
+        <label for="ngaySinh">Ngày sinh:</label>
+        <input type="date" name="ngaySinh" id="ngaySinh">
+    </div>
 
-<body>
-    <form>
-        <input type="email" id="email" placeholder="Email">
-        <input type="password" id="password" placeholder="Password">
-        <button type="submit">Login</button>
-    </form>
-</body>
+    <div>
+        <label for="diaChi">Địa chỉ:</label>
+        <input type="text" name="diaChi" id="diaChi">
+    </div>
 
-<script>
-    const form = document.querySelector('form');
-    form.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const email = document.getElementById('email').value;
-        const password = document.getElementById('password').value;
-        const response = await fetch(
-            'http://127.0.0.1:8000/api/login', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    email: email,
-                    password: password
-                })
-            });
-        const data = await response.json();
-        localStorage.setItem('access_token', data.access_token);
-        console.log(data);
-    });
-</script>
+    <div>
+        <label for="avatar">Ảnh đại diện:</label>
+        <input type="file" name="avatar" id="avatar">
+    </div>
 
-</html>
+    <button type="submit">Cập nhật</button>
+</form>

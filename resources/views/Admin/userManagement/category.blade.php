@@ -14,7 +14,7 @@
         @csrf
         <div>
             <label for="title">Tiêu đề:</label>
-            <input type="text" name="title" id="title">
+            <input type="text" name="name" id="title">
         </div>
         <div>
             <label for="description">Mô tả:</label>

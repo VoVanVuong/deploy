@@ -20,7 +20,7 @@ class TeachersController extends Controller
             'hoTen' => 'required',
             'ngaySinh' => 'required|date',
             'diaChi' => 'required',
-            'avatar' => 'image',
+            'avatar' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
             'gioiTinh' => 'nullable',
         ];
 

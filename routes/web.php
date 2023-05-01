@@ -63,7 +63,7 @@ Login Admin
  */
 
 Route::get('login/test', function () {
-    return 123;
+    return view('Admin.userManagement.test');
 });
 
 Route::get('category', function () {
@@ -75,7 +75,22 @@ Route::get('/update/user', function () {
 });
 
 Route::post('category/post', function (Request $request) {
-    dd($request->all());
+
+    $vimeo = new Vimeo("4306103b2bcaa19d344453bab5913d4d6fdf3721",
+        "X+juKdZtvs8pnfA5UCsIWVcSyepTugkSJlkiTBD/kgVB6WZGVKM4A7aKkkHVWfmEPVWua2kXGfNLMbTkn4KnTHz0nLLQRKLQhAZgSIphh997ZjeZETb4+mstlvkL0SiE",
+        "a5afc1cd26b4d5bea6865b85bd636c3d");
+
+    $file = $request->file('video');
+
+    $vimeoVideoLink = Vimeo::upload($file, [
+        'name' => 'Football',
+        'description' => 'Brazil is the best country to learn about football',
+    ]);
+
+    $vimeoVideoId = explode('videos/', $vimeoVideoId)[1];
+
+    $video = json_decode($vimeoVideoId);
+
 })->name('post-video');
 Route::get('course', function () {
     return view('Admin.userManagement.testkhoa');

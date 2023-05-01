@@ -58,7 +58,6 @@ Route::middleware('cors')->group(function () {
         Route::put('update/user/profile', [TeachersController::class, 'updateUserProfile']);
 
     });
-
     Route::middleware('auth:sanctum')->group(function () {
         Route::namespace('Api')->group(function () {
 
