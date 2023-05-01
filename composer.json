@@ -18,7 +18,8 @@
         "nao-pon/flysystem-google-drive": "~1.1",
         "spatie/laravel-analytics": "^3.11",
         "symfony/mailer": "^5.4",
-        "tymon/jwt-auth": "dev-develop"
+        "tymon/jwt-auth": "dev-develop",
+        "vimeo/laravel": "^5.8"
     },
     "require-dev": {
         "facade/ignition": "^2.5",

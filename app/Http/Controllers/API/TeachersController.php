@@ -20,7 +20,7 @@ class TeachersController extends Controller
             'hoTen' => 'required',
             'ngaySinh' => 'required|date',
             'diaChi' => 'required',
-            'avatar' => 'image:jpeg,png,gif',
+            'avatar' => 'image',
             'gioiTinh' => 'nullable',
         ];
 
@@ -97,8 +97,8 @@ class TeachersController extends Controller
 
         $user->update($userData);
 
-        return response()->json(['message' => 'Cập nhật profile thành công'], 200);
-
+        $user = $user->fresh();
+        return response()->json(['message' => 'Cập nhật profile thành công', 'data' => $user], 200);
     }
 
     public function changePassword(Request $request)

@@ -53,9 +53,9 @@ Route::middleware('cors')->group(function () {
 
         Route::post('courses/{id}/evaluate', [EvaluateController::class, 'createEvaluate']);
 
-        Route::put('update/user/profile', [TeachersController::class, 'updateUserProfile']);
-
         Route::post('change/password', [TeachersController::class, 'changePassword']);
+
+        Route::put('update/user/profile', [TeachersController::class, 'updateUserProfile']);
 
     });
 

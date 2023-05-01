@@ -198,7 +198,9 @@ class CategoryController extends Controller
             'category_id' => $request->category_id,
         ]);
 
-        return response()->json(['message' => 'Cập nhật khóa học thành công'], 200);
+        $course = $course->fresh();
+
+        return response()->json(['message' => 'Cập nhật khóa học thành công', 'data' => $course], 200);
     }
 
 }

@@ -70,6 +70,10 @@ Route::get('category', function () {
     return view('Admin.userManagement.category');
 });
 
+Route::get('/update/user', function () {
+    return view('Admin.userManagement.update');
+});
+
 Route::post('category/post', function (Request $request) {
     dd($request->all());
 })->name('post-video');
