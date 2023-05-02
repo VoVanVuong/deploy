@@ -58,15 +58,12 @@ class TeachersController extends Controller
     {
 
         $validator = $this->validatorUpdateUser($request);
-
         if ($validator->fails()) {
             return response()->json($validator->errors(), 422);
         }
 
-        $email = $request->input('email');
-
         $user = Auth::guard('api')->user();
-
+        $email = $request->input('email');
         if ($email && $email !== $user->email) {
             return response()->json(['message' => 'Bạn không thể cập nhập lại gmail'], 422);
         }
@@ -75,24 +72,15 @@ class TeachersController extends Controller
             return response()->json(['error' => 'Profile này không phải của bạn'], 422);
         }
 
+        $userData = [
+            'soDienThoai' => $request->soDienThoai,
+            'hoTen' => $request->hoTen,
+            'ngaySinh' => $request->ngaySinh,
+            'diaChi' => $request->diaChi,
+        ];
+
         if ($request->avatar) {
-
-            $userData = [
-                'soDienThoai' => $request->soDienThoai,
-                'hoTen' => $request->hoTen,
-                'ngaySinh' => $request->ngaySinh,
-                'diaChi' => $request->diaChi,
-                'avatar' => $request->avatar,
-            ];
-
-        } else {
-            $userData = [
-                'soDienThoai' => $request->soDienThoai,
-                'hoTen' => $request->hoTen,
-                'ngaySinh' => $request->ngaySinh,
-                'diaChi' => $request->diaChi,
-            ];
-
+            $userData['avatar'] = $request->avatar;
         }
 
         if ($request->has('gioiTinh')) {
