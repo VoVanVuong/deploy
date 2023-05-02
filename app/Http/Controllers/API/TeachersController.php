@@ -78,44 +78,31 @@ class TeachersController extends Controller
         if ($request->hasFile('avatar')) {
 
             $userData = [
-
                 'soDienThoai' => $request->soDienThoai,
                 'hoTen' => $request->hoTen,
                 'ngaySinh' => $request->ngaySinh,
                 'diaChi' => $request->diaChi,
                 'avatar' => $request->avatar,
-
             ];
-
-            if ($request->has('gioiTinh')) {
-                $userData['gioiTinh'] = $request->gioiTinh;
-            }
-
-            $user->update($userData);
-
-            $user = $user->fresh();
-            return response()->json(['message' => 'Cập nhật profile thành công', 'data' => $user], 200);
 
         } else {
             $userData = [
-
                 'soDienThoai' => $request->soDienThoai,
                 'hoTen' => $request->hoTen,
                 'ngaySinh' => $request->ngaySinh,
                 'diaChi' => $request->diaChi,
-
             ];
 
-            if ($request->has('gioiTinh')) {
-                $userData['gioiTinh'] = $request->gioiTinh;
-            }
-
-            $user->update($userData);
-
-            $user = $user->fresh();
-            return response()->json(['message' => 'Cập nhật profile thành công', 'data' => $user], 200);
-
         }
+
+        if ($request->has('gioiTinh')) {
+            $userData['gioiTinh'] = $request->gioiTinh;
+        }
+
+        $user->update($userData);
+
+        $user = $user->fresh();
+        return response()->json(['message' => 'Cập nhật profile thành công', 'data' => $user], 200);
 
     }
 
