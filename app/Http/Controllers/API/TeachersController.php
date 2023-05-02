@@ -9,7 +9,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
-use Storage;
 
 class TeachersController extends Controller
 {
@@ -77,23 +76,33 @@ class TeachersController extends Controller
         }
 
         $userData = [
+
             'soDienThoai' => $request->soDienThoai,
             'hoTen' => $request->hoTen,
             'ngaySinh' => $request->ngaySinh,
             'diaChi' => $request->diaChi,
+            'avatar' => $request->avatar,
 
         ];
 
-        if ($request->hasFile('avatar')) {
-            $image = $request->file('avatar');
-            if ($image->isValid()) {
-                $path = Storage::disk('google')->putFileAs('/', $image, $image->getClientOriginalName());
-                $url = Storage::disk('google')->url($path);
-                $userData['avatar'] = $url;
-            } else {
-                return response()->json(['message' => 'Invalid file'], 422);
-            }
-        }
+        // if ($request->hasFile('avatar')) {
+
+        //     $image = $request->file('avatar');
+
+        //     if ($image->isValid()) {
+        //         $path = Storage::disk('google')->putFileAs('/', $image, $image->getClientOriginalName());
+        //         $url = Storage::disk('google')->url($path);
+        //         $userData['avatar'] = $url;
+
+        //         if ($user->avatar) {
+        //             Storage::disk('google')->delete(basename($user->avatar));
+        //         }
+        //     } else {
+
+        //         return response()->json(['message' => 'Invalid file'], 422);
+
+        //     }
+        // }
 
         if ($request->has('gioiTinh')) {
             $userData['gioiTinh'] = $request->gioiTinh;
