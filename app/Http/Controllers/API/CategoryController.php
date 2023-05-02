@@ -143,9 +143,10 @@ class CategoryController extends Controller
 
     public function getCoursesByTeacherId($id)
     {
+        $user = User::find($id);
         $courses = Course::where('idGiangVien', $id)->get();
 
-        return response()->json(['data' => $courses]);
+        return response()->json(['user' => $user, 'data' => $courses]);
     }
 
     public function updateCategory(Request $request, $id)

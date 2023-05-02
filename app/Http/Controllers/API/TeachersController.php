@@ -81,28 +81,14 @@ class TeachersController extends Controller
             'hoTen' => $request->hoTen,
             'ngaySinh' => $request->ngaySinh,
             'diaChi' => $request->diaChi,
-            'avatar' => $request->avatar,
 
         ];
 
-        // if ($request->hasFile('avatar')) {
+        if ($request->hasFile('avatar')) {
 
-        //     $image = $request->file('avatar');
+            $userData['avatar'] = $request->avatar;
 
-        //     if ($image->isValid()) {
-        //         $path = Storage::disk('google')->putFileAs('/', $image, $image->getClientOriginalName());
-        //         $url = Storage::disk('google')->url($path);
-        //         $userData['avatar'] = $url;
-
-        //         if ($user->avatar) {
-        //             Storage::disk('google')->delete(basename($user->avatar));
-        //         }
-        //     } else {
-
-        //         return response()->json(['message' => 'Invalid file'], 422);
-
-        //     }
-        // }
+        }
 
         if ($request->has('gioiTinh')) {
             $userData['gioiTinh'] = $request->gioiTinh;
@@ -149,4 +135,5 @@ class TeachersController extends Controller
 
         return response()->json(['message' => 'Đổi mật khẩu thành công'], 200);
     }
+
 }
