@@ -20,7 +20,7 @@ class TeachersController extends Controller
             'hoTen' => 'required',
             'ngaySinh' => 'required|date',
             'diaChi' => 'required',
-            'avatar' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+            // 'avatar' => 'image|mimes:jpeg,png,jpg,gif',
             'gioiTinh' => 'nullable',
         ];
 
@@ -33,7 +33,7 @@ class TeachersController extends Controller
             'soDienThoai.required' => 'Số điện thoại không được để trống',
             'soDienThoai.unique' => 'Số điện thoại đã được đăng kí',
             'soDienThoai.numeric' => 'Số điện thoại phải là số',
-            'avatar.image' => 'Hình ảnh phải đúng định dạng',
+            // 'avatar.image' => 'Hình ảnh phải đúng định dạng',
             'diaChi.required' => 'Địa chỉ không được để trống',
             'ngaySinh.required' => 'Ngày sinh không được để trống',
             'ngaySinh.date' => 'Ngày sinh phải đúng định dạng',
