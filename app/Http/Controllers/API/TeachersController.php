@@ -20,7 +20,7 @@ class TeachersController extends Controller
             'hoTen' => 'required',
             'ngaySinh' => 'required|date',
             'diaChi' => 'required',
-            'avatar' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'avatar' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
             'gioiTinh' => 'nullable',
         ];
 
@@ -81,7 +81,7 @@ class TeachersController extends Controller
             'hoTen' => $request->hoTen,
             'ngaySinh' => $request->ngaySinh,
             'diaChi' => $request->diaChi,
-            'avatar' => $user->avatar,
+
         ];
 
         if ($request->has('avatar')) {
