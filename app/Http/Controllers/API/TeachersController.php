@@ -84,11 +84,15 @@ class TeachersController extends Controller
 
         ];
 
-        if ($request->has('avatar')) {
+        if ($request->hasFile('avatar')) {
             $image = $request->file('avatar');
-            $path = Storage::disk('google')->putFileAs('/', $image, $image->getClientOriginalName());
-            $url = Storage::disk('google')->url($path);
-            $userData['avatar'] = $url;
+            if ($image->isValid()) {
+                $path = Storage::disk('google')->putFileAs('/', $image, $image->getClientOriginalName());
+                $url = Storage::disk('google')->url($path);
+                $userData['avatar'] = $url;
+            } else {
+                return response()->json(['message' => 'Invalid file'], 422);
+            }
         }
 
         if ($request->has('gioiTinh')) {
