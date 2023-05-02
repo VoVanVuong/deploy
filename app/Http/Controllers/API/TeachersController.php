@@ -75,7 +75,7 @@ class TeachersController extends Controller
             return response()->json(['error' => 'Profile này không phải của bạn'], 422);
         }
 
-        if ($request->hasFile('avatar')) {
+        if ($request->avatar) {
 
             $userData = [
                 'soDienThoai' => $request->soDienThoai,
