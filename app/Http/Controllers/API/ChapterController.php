@@ -63,9 +63,9 @@ class ChapterController extends Controller
     /*
     get chapter teacher
      */
-    public function getChapter()
+    public function getChapter($id)
     {
-        $getChapter = Chapter::where('user_id', $this->userId->returnUserId())
+        $getChapter = Chapter::where('course_id', $id)
             ->orderBy('id', 'desc')
             ->get();
         return response()->json(['data' => $getChapter]);
