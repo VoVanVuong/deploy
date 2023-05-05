@@ -21,4 +21,9 @@ class Lesson extends Model
         'user_id',
     ];
 
+    public function chapter()
+    {
+        return $this->belongsTo(Chapter::class);
+    }
+
 }

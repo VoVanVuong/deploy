@@ -178,9 +178,12 @@ class CategoryController extends Controller
 
     public function getDetailCourse($id)
     {
-        $detailCourse = Course::find($id);
+        $course = Course::with(['chapters' => function ($query) {
+            $query->select(['id', 'tenChuongHoc', 'course_id'])
+                ->with('lessons');
+        }])->findOrFail($id);
 
-        return response()->json(['data' => $detailCourse]);
+        return response()->json(['data' => $course]);
     }
     /*
     get courses teacher

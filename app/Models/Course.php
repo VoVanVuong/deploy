@@ -44,6 +44,6 @@ class Course extends Model
 
     public function chapters()
     {
-        return $this->hasMany(Chapter::class);
+        return $this->hasMany(Chapter::class)->select('id', 'tenChuongHoc', 'course_id');
     }
 }

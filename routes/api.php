@@ -43,6 +43,7 @@ Route::middleware('cors')->group(function () {
         Route::get('delete/{id}/course', [CategoryController::class, 'deleteCourse'])->name('deleteCourse');
 
         Route::post('post/lesson', [LessonController::class, 'createLesson'])->name('createLesson');
+        Route::put('update/{id}/lesson', [LessonController::class, 'updateLesson'])->name('updateLesson');
 
     });
 

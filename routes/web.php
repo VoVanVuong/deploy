@@ -2,7 +2,7 @@
 
 use App\Http\Controllers\Admin\AddUserController;
 use App\Http\Controllers\Admin\AdminLoginController;
-use App\Models\User;
+use App\Models\Course;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Spatie\Analytics\Period;
@@ -76,13 +76,12 @@ Route::get('/update/user', function () {
 });
 
 Route::get('/update/chapters', function () {
-    // $course = Course::find(1);
-    // $instructor = $course->instructor;
-    // $chapters = $course->chapters;
-    $teacher = User::find(23);
-    $teacher->courses;
-    $teacher->chapters;
-    return response()->json(['teacher' => $teacher]);
+    $course = Course::with(['chapters' => function ($query) {
+        $query->select(['id', 'tenChuongHoc', 'course_id'])
+            ->with('lessons');
+    }])->findOrFail(1);
+    return response()->json($course);
+
 });
 
 Route::post('category/post', function (Request $request) {

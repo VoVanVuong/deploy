@@ -23,6 +23,22 @@ class LessonController extends Controller
 
     }
 
+    protected function validatorUpdateLesson(Request $request)
+    {
+        return Validator::make($request->all(), [
+            'tenBaiHoc' => 'required',
+            'linkVideo' => 'required',
+            'tenBaiTap' => 'required',
+            'moTaBaiTap' => 'required',
+        ], [
+            'tenBaiHoc.required' => 'Tên bài học không được để trống',
+            'linkVideo.required' => 'Video không được để trống',
+            'tenBaiTap.required' => 'Tên bài tập không được để trống',
+            'moTaBaiTap.required' => 'Mô tả bài tập không được để trống',
+
+        ]);
+    }
+
     public function createLesson(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -54,5 +70,34 @@ class LessonController extends Controller
         ]);
 
         return response()->json(['message' => 'Đăng bài học thành công', 'data' => $createLesson], 200);
+    }
+
+    public function updateLesson(Request $request, $id)
+    {
+        $validator = $this->validatorUpdateLesson($request);
+
+        if ($validator->fails()) {
+            return response()->json($validator->errors(), 422);
+        }
+
+        $lesson = Lesson::where('id', $id)
+            ->where('user_id', $this->userId->returnUserId())
+            ->first();
+
+        if (!$lesson) {
+            return response()->json(['error' => 'Bạn không có quyền'], 422);
+        }
+
+        $lesson->update([
+            'tenBaiHoc' => $request->tenBaiHoc,
+            'linkVideo' => $request->linkVideo,
+            'tenBaiTap' => $request->tenBaiTap,
+            'moTaBaiTap' => $request->moTaBaiTap,
+            'trangThai' => $request->trangThai,
+            'chapter_id' => $request->chapter_id,
+            'user_id' => $this->userId->returnUserId(),
+        ]);
+
+        return response()->json(['message' => 'Cập nhật bài học thành công', 'data' => $lesson->fresh()], 200);
     }
 }
