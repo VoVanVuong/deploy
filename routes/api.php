@@ -72,9 +72,17 @@ Route::middleware('cors')->group(function () {
 
         Route::put('update/user/profile', [TeachersController::class, 'updateUserProfile']);
 
+        //post comment id lesson
         Route::post('comment/{id}/lesson', [CommentController::class, 'createComment']);
 
+        //Reply to comment
+        Route::post('lesson/{id}/comments/{commentId}/replies', [CommentController::class, 'createReply']);
+
     });
+
+    //get all comment lesson
+    Route::get('lessons/{id}/comments', [CommentController::class, 'getComments'])->name('getComments');
+
     Route::middleware('auth:sanctum')->group(function () {
         Route::namespace('Api')->group(function () {
 

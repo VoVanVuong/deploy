@@ -26,4 +26,9 @@ class Lesson extends Model
         return $this->belongsTo(Chapter::class);
     }
 
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
+
 }

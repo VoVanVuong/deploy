@@ -2,7 +2,7 @@
 
 use App\Http\Controllers\Admin\AddUserController;
 use App\Http\Controllers\Admin\AdminLoginController;
-use App\Models\Course;
+use App\Models\Comment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Spatie\Analytics\Period;
@@ -76,15 +76,20 @@ Route::get('/update/user', function () {
 });
 
 Route::get('/update/chapters', function () {
-    $course = Course::with(['chapters' => function ($query) {
-        $query->select(['id', 'tenChuongHoc', 'course_id', 'user_id'])
-            ->with('lessons');
-    }])->findOrFail(1);
+    // $course = Course::with(['chapters' => function ($query) {
+    //     $query->select(['id', 'tenChuongHoc', 'course_id', 'user_id'])
+    //         ->with('lessons');
+    // }])->findOrFail(1);
 
-    $course->instructor;
-    return response()->json(['data' => $course]);
-// 20230506005248
+    // $course->instructor;
+    // return response()->json(['data' => $course]);
+    // 20230506005248
     // http://127.0.0.1:8000/update/chapters
+
+    $reply = Comment::find(1);
+    $comments = $reply->replies;
+
+    return response()->json(['data' => $comments]);
 
 });
 

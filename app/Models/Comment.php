@@ -20,7 +20,8 @@ class Comment extends Model
 
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class)
+            ->select(['id', 'avatar', 'hoTen']);
     }
 
     public function lesson()
@@ -28,8 +29,9 @@ class Comment extends Model
         return $this->belongsTo(Lesson::class);
     }
 
-    public function children()
+    public function replies()
     {
-        return $this->hasMany(Comment::class, 'parent_id');
+        return $this->hasMany(Comment::class, 'parent_id')
+            ->with('user:id,avatar,hoTen');
     }
 }
