@@ -18,9 +18,8 @@ class Course extends Model
         'tenKhoaHoc',
         'giaCa',
         'trangThai',
-        'idGiangVien',
+        'user_id',
         'category_id',
-        'idNguoiDung',
     ];
 
     public function category()
@@ -36,5 +35,15 @@ class Course extends Model
     public function user()
     {
         return $this->belongsToMany(User::class);
+    }
+
+    public function instructor()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function chapters()
+    {
+        return $this->hasMany(Chapter::class);
     }
 }

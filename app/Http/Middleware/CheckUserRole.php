@@ -21,6 +21,6 @@ class CheckUserRole
         if (Auth::guard('api')->check() && Auth::guard('api')->user()->phanQuyen == 2) {
             return $next($request);
         }
-        return response()->json(['error' => Auth::guard('api')->check() ? 'Bạn không có quyền.' : 'Bạn chưa đăng nhập.'], 401);
+        return response()->json(['error' => Auth::guard('api')->check() ? 'Bạn không có quyền' : 'Bạn chưa đăng nhập'], 401);
     }
 }

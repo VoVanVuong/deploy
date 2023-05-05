@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\AddUserController;
 use App\Http\Controllers\Admin\AdminLoginController;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Spatie\Analytics\Period;
@@ -72,6 +73,16 @@ Route::get('category', function () {
 
 Route::get('/update/user', function () {
     return view('Admin.userManagement.update');
+});
+
+Route::get('/update/chapters', function () {
+    // $course = Course::find(1);
+    // $instructor = $course->instructor;
+    // $chapters = $course->chapters;
+    $teacher = User::find(23);
+    $teacher->courses;
+    $teacher->chapters;
+    return response()->json(['teacher' => $teacher]);
 });
 
 Route::post('category/post', function (Request $request) {

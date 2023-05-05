@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\API\CategoryController;
+use App\Http\Controllers\API\ChapterController;
 use App\Http\Controllers\API\EvaluateController;
 use App\Http\Controllers\API\LoginRegisterController;
 use App\Http\Controllers\API\SearchController;
@@ -30,12 +31,19 @@ Route::middleware('cors')->group(function () {
     Route::middleware('CheckUserRole')->group(function () {
         Route::post('post/category', [CategoryController::class, 'createCategory'])->name('createCategory');
         Route::get('get/category', [CategoryController::class, 'getCategory'])->name('getCategory');
+        // Route::delete('delete/{id}/category', [CategoryController::class, 'deleteCategory'])->name('deleteCategory');
         Route::post('post/course', [CategoryController::class, 'createCourse'])->name('createCourse');
         Route::get('get/course', [CategoryController::class, 'getCourse'])->name('getCourse');
         Route::put('update/{id}/category', [CategoryController::class, 'updateCategory'])->name('updateCategory');
         Route::put('update/{id}/course', [CategoryController::class, 'updateCourse'])->name('updateCourse');
+        Route::delete('delete/{id}/course', [CategoryController::class, 'deleteCourse'])->name('deleteCourse');
+        Route::post('post/chapter', [ChapterController::class, 'createChapter'])->name('createChapter');
+        Route::get('get/chapter', [ChapterController::class, 'getChapter'])->name('getChapter');
+        Route::put('update/{id}/chapter', [ChapterController::class, 'updateChapterTeacher'])->name('updateChapterTeacher');
 
     });
+
+    Route::get('detail/{id}/course', [CategoryController::class, 'getDetailCourse'])->name('getDetailCourse');
 
     Route::get('get/getCategories', [CategoryController::class, 'getCategories'])->name('getCategories');
 

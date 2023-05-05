@@ -6,13 +6,28 @@ use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Course;
 use App\Models\User;
+use App\Repositories\UserId;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 
 class CategoryController extends Controller
 {
+    /*
+    userId variable
+     */
+    public $userId;
+
+    public function __construct(UserId $userId)
+    {
+
+        $this->userId = $userId;
+
+    }
+
+    /*
+    validator
+     */
     protected function validator(Request $request)
     {
         return Validator::make($request->all(), [
@@ -29,6 +44,9 @@ class CategoryController extends Controller
         ]);
     }
 
+    /*
+    validator update category
+     */
     protected function validatorUpdateCategory(Request $request, $id = null)
     {
         return Validator::make($request->all(), [
@@ -45,6 +63,9 @@ class CategoryController extends Controller
         ]);
     }
 
+    /*
+    validator course
+     */
     protected function validatorCourse(Request $request)
     {
 
@@ -64,6 +85,9 @@ class CategoryController extends Controller
         ]);
     }
 
+    /*
+    create category
+     */
     public function createCategory(Request $request)
     {
         $validator = $this->validator($request);
@@ -72,31 +96,39 @@ class CategoryController extends Controller
             return response()->json($validator->errors(), 422);
         }
 
-        $user = Auth::guard('api')->user();
         $createCategory = Category::create([
-            'idGiangVien' => $user->id,
+            'idGiangVien' => $this->userId->returnUserId(),
             'tenDanhMuc' => $request->tenDanhMuc,
             'moTa' => $request->moTa,
         ]);
 
-        return response()->json(['message' => 'Tạo danh mục thành công'], 200);
+        return response()->json(['message' => 'Tạo danh mục thành công', 'data' => $createCategory], 200);
 
     }
 
+    /*
+    get category
+     */
     public function getCategory()
     {
-        $user = Auth::guard('api')->user();
-        $userId = $user->id;
-        $categories = Category::where('idGiangVien', $userId)->get();
+        $categories = Category::where('idGiangVien', $this->userId->returnUserId())
+            ->orderBy('id', 'desc')
+            ->get();
         return response()->json(['data' => $categories], 200);
     }
 
+    /*
+    get categories
+     */
     public function getCategories()
     {
-        $categories = Category::all();
+        $categories = Category::orderBy('id', 'desc')->get();
         return response()->json(['data' => $categories], 200);
     }
 
+    /*
+    create course
+     */
     public function createCourse(Request $request)
     {
         $validator = $this->validatorCourse($request);
@@ -105,8 +137,6 @@ class CategoryController extends Controller
             return response()->json($validator->errors(), 422);
         }
 
-        $user = Auth::guard('api')->user();
-        $userId = $user->id;
         $createCourse = Course::create([
 
             'tenKhoaHoc' => $request->tenKhoaHoc,
@@ -115,46 +145,62 @@ class CategoryController extends Controller
             'giaCa' => $request->giaCa,
             'trangThai' => 0,
             'category_id' => $request->category_id,
-            'idGiangVien' => $userId,
+            'user_id' => $this->userId->returnUserId(),
         ]);
 
-        return response()->json(['message' => 'Đăng khóa học thành công!'], 200);
+        return response()->json(['message' => 'Đăng khóa học thành công', 'data' => $createCourse], 200);
 
     }
 
+    /*
+    get course
+     */
     public function getCourse()
     {
-        $user = Auth::guard('api')->user();
-        $userId = $user->id;
-
-        $course = Course::where('idGiangVien', '=', $userId)->get();
+        $course = Course::where('user_id', '=', $this->userId->returnUserId())
+            ->orderBy('id', 'desc')
+            ->get();
 
         return response()->json(['data' => $course]);
 
     }
 
+    /*
+    get courses
+     */
     public function getCoursesShow()
     {
-        $courses = Course::all();
+        $courses = Course::orderBy('id', 'desc')->get();
 
         return response()->json(['data' => $courses]);
 
     }
 
+    public function getDetailCourse($id)
+    {
+        $detailCourse = Course::find($id);
+
+        return response()->json(['data' => $detailCourse]);
+    }
+    /*
+    get courses teacher
+     */
     public function getCoursesByTeacherId($id)
     {
         $user = User::find($id);
-        $courses = Course::where('idGiangVien', $id)->get();
+        $courses = Course::where('user_id', $id)->orderBy('id', 'desc')->get();
 
         return response()->json(['user' => $user, 'data' => $courses]);
     }
 
+    /*
+    update category
+     */
     public function updateCategory(Request $request, $id)
     {
         $category = Category::findOrFail($id);
-        $user = Auth::guard('api')->user();
 
-        if ($category->idGiangVien !== $user->id) {
+        if ($category->idGiangVien !== $this->userId->returnUserId()) {
             return response()->json(['message' => 'Bạn không có quyền cập nhật danh mục này'], 422);
         }
 
@@ -169,9 +215,42 @@ class CategoryController extends Controller
             'moTa' => $request->moTa,
         ]);
 
-        return response()->json(['message' => 'Cập nhật danh mục thành công'], 200);
+        return response()->json(['message' => 'Cập nhật danh mục thành công', 'data' => $category->fresh()], 200);
     }
 
+    // public function deleteCategory($id)
+    // {
+    //     $category = Category::find($id);
+    //     if ($category !== null && $category->idGiangVien == $this->userId->returnUserId()) {
+    //         $courses = Course::whereHas('category', function ($query) use ($id) {
+    //             $query->where('category_id', $id);
+    //         })->get();
+    //         foreach ($courses as $course) {
+    //             $course->chapters()->delete();
+    //             $course->delete();
+    //         }
+    //         $category->delete();
+    //         return response()->json(['message' => 'Xóa danh mục thành công'], 200);
+    //     } else {
+    //         return response()->json(['error' => 'Bạn không có quyền xóa danh mục này'], 422);
+    //     }
+
+    // }
+
+    public function deleteCourse($id)
+    {
+        $course = Course::find($id);
+
+        if ($course !== null && $course->user_id == $this->userId->returnUserId()) {
+            $course->delete();
+            return response()->json(['message' => 'Xóa danh khóa học thành công'], 200);
+        } else {
+            return response()->json(['error' => 'Bạn không có quyền xóa '], 422);
+        }
+    }
+    /*
+    update course teacher
+     */
     public function updateCourse(Request $request, $id)
     {
         $validator = $this->validatorCourse($request);
@@ -180,11 +259,8 @@ class CategoryController extends Controller
             return response()->json($validator->errors(), 422);
         }
 
-        $user = Auth::guard('api')->user();
-        $userId = $user->id;
-
         $course = Course::where('id', $id)
-            ->where('idGiangVien', $userId)
+            ->where('user_id', $this->userId->returnUserId())
             ->first();
 
         if (!$course) {
@@ -196,12 +272,11 @@ class CategoryController extends Controller
             'moTa' => $request->moTa,
             'linkVideo' => $request->linkVideo,
             'giaCa' => $request->giaCa,
+            'trangThai' => $request->trangThai,
             'category_id' => $request->category_id,
         ]);
 
-        $course = $course->fresh();
-
-        return response()->json(['message' => 'Cập nhật khóa học thành công', 'data' => $course], 200);
+        return response()->json(['message' => 'Cập nhật khóa học thành công', 'data' => $course->fresh()], 200);
     }
 
 }
