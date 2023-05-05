@@ -28,4 +28,10 @@ class Chapter extends Model
     {
         return $this->hasMany(Lesson::class);
     }
+
+    public function instructor()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
 }

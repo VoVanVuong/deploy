@@ -39,7 +39,7 @@ class Course extends Model
 
     public function instructor()
     {
-        return $this->belongsTo(User::class, 'user_id')->select('hoTen');
+        return $this->belongsTo(User::class, 'user_id')->select('id', 'hoTen');
     }
 
     public function chapters()

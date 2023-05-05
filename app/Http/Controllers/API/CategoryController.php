@@ -178,11 +178,13 @@ class CategoryController extends Controller
 
     public function getDetailCourse($id)
     {
-        $course = Course::with(['chapters' => function ($query) {
-            $query->select(['id', 'tenChuongHoc', 'course_id'])
-                ->with('lessons');
-        }])->findOrFail($id);
 
+        $course = Course::with(['chapters' => function ($query) {
+            $query->select(['id', 'tenChuongHoc', 'course_id', 'user_id'])
+                ->with('lessons');
+        }])->findOrFail(1);
+
+        $course->instructor;
         return response()->json(['data' => $course]);
     }
     /*

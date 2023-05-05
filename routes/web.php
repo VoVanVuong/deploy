@@ -76,13 +76,15 @@ Route::get('/update/user', function () {
 });
 
 Route::get('/update/chapters', function () {
-
     $course = Course::with(['chapters' => function ($query) {
-        $query->select(['id', 'tenChuongHoc', 'course_id'])
+        $query->select(['id', 'tenChuongHoc', 'course_id', 'user_id'])
             ->with('lessons');
     }])->findOrFail(1);
 
-    return response()->json(['users' => $course->instructor, 'data' => $course]);
+    $course->instructor;
+    return response()->json(['data' => $course]);
+// 20230506005248
+    // http://127.0.0.1:8000/update/chapters
 
 });
 
