@@ -218,25 +218,6 @@ class CategoryController extends Controller
         return response()->json(['message' => 'Cập nhật danh mục thành công', 'data' => $category->fresh()], 200);
     }
 
-    // public function deleteCategory($id)
-    // {
-    //     $category = Category::find($id);
-    //     if ($category !== null && $category->idGiangVien == $this->userId->returnUserId()) {
-    //         $courses = Course::whereHas('category', function ($query) use ($id) {
-    //             $query->where('category_id', $id);
-    //         })->get();
-    //         foreach ($courses as $course) {
-    //             $course->chapters()->delete();
-    //             $course->delete();
-    //         }
-    //         $category->delete();
-    //         return response()->json(['message' => 'Xóa danh mục thành công'], 200);
-    //     } else {
-    //         return response()->json(['error' => 'Bạn không có quyền xóa danh mục này'], 422);
-    //     }
-
-    // }
-
     public function deleteCourse($id)
     {
         $course = Course::find($id);
@@ -248,6 +229,7 @@ class CategoryController extends Controller
             return response()->json(['error' => 'Bạn không có quyền xóa '], 422);
         }
     }
+
     /*
     update course teacher
      */

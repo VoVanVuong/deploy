@@ -3,6 +3,7 @@
 use App\Http\Controllers\API\CategoryController;
 use App\Http\Controllers\API\ChapterController;
 use App\Http\Controllers\API\EvaluateController;
+use App\Http\Controllers\API\LessonController;
 use App\Http\Controllers\API\LoginRegisterController;
 use App\Http\Controllers\API\SearchController;
 use App\Http\Controllers\API\TeachersController;
@@ -40,6 +41,8 @@ Route::middleware('cors')->group(function () {
         Route::post('post/chapter', [ChapterController::class, 'createChapter'])->name('createChapter');
         Route::put('update/{id}/chapter', [ChapterController::class, 'updateChapterTeacher'])->name('updateChapterTeacher');
         Route::get('delete/{id}/course', [CategoryController::class, 'deleteCourse'])->name('deleteCourse');
+
+        Route::post('post/lesson', [LessonController::class, 'createLesson'])->name('createLesson');
 
     });
 
