@@ -45,7 +45,7 @@ class AddUserController extends Controller
 
         $users = User::select('id', 'hoTen', 'avatar', 'phanQuyen', 'trangThai', 'email', 'soDienThoai', 'gioiTinh', 'ngaySinh', 'diaChi')
             ->where('id', '!=', $userId)
-            ->where('phanQuyen', 2)
+            ->where('phanQuyen', 1)
             ->orderBy('last_seen', 'DESC')
             ->paginate(5);
 
@@ -57,7 +57,7 @@ class AddUserController extends Controller
         $userId = Auth::user()->id;
         $users = User::select('id', 'hoTen', 'avatar', 'phanQuyen', 'trangThai', 'email', 'soDienThoai', 'gioiTinh', 'ngaySinh', 'diaChi')
             ->where('id', '!=', $userId)
-            ->where('phanQuyen', 1)
+            ->where('phanQuyen', 2)
             ->orderBy('last_seen', 'DESC')
             ->paginate(5);
 

@@ -70,7 +70,7 @@
                                                                     style=" font-size: 10px; background-color: #e9170b !important; "
                                                                     class="badge badge-pill badge-success">Admin
                                                                 </span>
-                                                            @elseif ($user->phanQuyen == 1)
+                                                            @elseif ($user->phanQuyen == 2)
                                                                 <span
                                                                     style=" font-size: 10px; background-color: #0081f5 !important; "
                                                                     class="badge badge-pill badge-success">Giảng viên

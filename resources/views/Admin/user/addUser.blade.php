@@ -89,8 +89,8 @@
                                 <label class="form-label">Phân quyền</label>
                                 <select name="phanQuyen" class="custom-select">
                                     <option value="3">Admin</option>
-                                    <option value="2">Nhân viên</option>
-                                    <option value="1">Giảng viên</option>
+                                    <option value="1">Nhân viên</option>
+                                    <option value="2">Giảng viên</option>
                                 </select>
                             </div>
                         </div>
