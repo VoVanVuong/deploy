@@ -76,11 +76,13 @@ Route::get('/update/user', function () {
 });
 
 Route::get('/update/chapters', function () {
+
     $course = Course::with(['chapters' => function ($query) {
         $query->select(['id', 'tenChuongHoc', 'course_id'])
             ->with('lessons');
     }])->findOrFail(1);
-    return response()->json($course);
+
+    return response()->json(['users' => $course->instructor, 'data' => $course]);
 
 });
 
