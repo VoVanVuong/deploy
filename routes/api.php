@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\API\CategoryController;
 use App\Http\Controllers\API\ChapterController;
+use App\Http\Controllers\API\CommentController;
 use App\Http\Controllers\API\EvaluateController;
 use App\Http\Controllers\API\LessonController;
 use App\Http\Controllers\API\LoginRegisterController;
@@ -70,6 +71,8 @@ Route::middleware('cors')->group(function () {
         Route::post('change/password', [TeachersController::class, 'changePassword']);
 
         Route::put('update/user/profile', [TeachersController::class, 'updateUserProfile']);
+
+        Route::post('comment/{id}/lesson', [CommentController::class, 'createComment']);
 
     });
     Route::middleware('auth:sanctum')->group(function () {
