@@ -16,6 +16,8 @@ class SearchController extends Controller
             ->with('instructor')
             ->get();
 
-        return response()->json(['courses' => $courses]);
+        $numCourses = count($courses);
+
+        return response()->json(['numCourses' => $numCourses, 'courses' => $courses]);
     }
 }
