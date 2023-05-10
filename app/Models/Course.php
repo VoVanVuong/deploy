@@ -37,6 +37,11 @@ class Course extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function searchCourseUser()
+    {
+        return $this->belongsTo(User::class, 'user_id', 'id')->select('id', 'hoTen');
+    }
+
     public function instructor()
     {
         return $this->belongsTo(User::class, 'user_id')->select('id', 'hoTen');

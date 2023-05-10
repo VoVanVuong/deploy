@@ -3,8 +3,9 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
-class UserRequest extends FormRequest
+class UpdateUserRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,12 +26,18 @@ class UserRequest extends FormRequest
     {
         return [
             'hoTen' => 'required',
-            'email' => 'required|unique:users|',
-            'password' => 'required|min:6',
-            'soDienThoai' => 'required|unique:users|numeric',
+            'email' => [
+                'required',
+                Rule::unique('users')->ignore($this->id),
+            ],
+            'soDienThoai' => [
+                'required',
+                'numeric',
+                Rule::unique('users')->ignore($this->id),
+            ],
             'ngaySinh' => 'required|date',
             'diaChi' => 'required',
-            'avatar' => 'required|image',
+            'avatar' => 'image',
         ];
     }
 
@@ -41,15 +48,12 @@ class UserRequest extends FormRequest
             'hoTen.required' => 'Tên không được để trống',
             'email.required' => 'Email không được để trống',
             'email.unique' => 'Email này đã đăng kí',
-            'password.required' => 'Mật khẩu không được để trống',
-            'password.min' => 'Mật khẩu phải lớn hơn 6 kí tự',
             'soDienThoai.required' => 'Số điện thoại không được để trống',
             'soDienThoai.unique' => 'Số điện thoại đã được đăng kí',
             'soDienThoai.numeric' => 'Số điện thoại phải là số',
             'ngaySinh.required' => 'Ngày sinh không được để trống',
             'ngaySinh.date' => 'Ngày sinh phải đúng định dạng',
             'diaChi.required' => 'Địa chỉ không được để trống',
-            'avatar.required' => 'Hình ảnh không được để trống',
             'avatar.image' => 'Phải nhập đúng định dạng ảnh',
         ];
     }

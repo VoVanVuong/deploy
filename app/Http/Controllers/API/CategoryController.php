@@ -227,12 +227,12 @@ class CategoryController extends Controller
     {
         $course = Course::find($id);
 
-        if ($course !== null && $course->user_id == $this->userId->returnUserId()) {
+        if ($course && $course->user_id == $this->userId->returnUserId()) {
             $course->delete();
-            return response()->json(['message' => 'Xóa danh khóa học thành công'], 200);
-        } else {
-            return response()->json(['error' => 'Bạn không có quyền xóa '], 422);
+            return response()->json(['message' => 'Xóa khóa học thành công'], 200);
         }
+        return response()->json(['error' => 'Bạn không có quyền xóa '], 422);
+
     }
 
     /*

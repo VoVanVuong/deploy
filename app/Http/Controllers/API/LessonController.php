@@ -100,4 +100,16 @@ class LessonController extends Controller
 
         return response()->json(['message' => 'Cập nhật bài học thành công', 'data' => $lesson->fresh()], 200);
     }
+
+    public function deleteLesson($id)
+    {
+        $lesson = Lesson::find($id);
+
+        if ($lesson && $lesson->user_id == $this->userId->returnUserId()) {
+            $lesson->delete();
+            return response()->json(['message' => 'Xóa bài học thành công'], 200);
+        }
+
+        return response()->json(['error' => 'Bạn không có quyền xóa'], 422);
+    }
 }

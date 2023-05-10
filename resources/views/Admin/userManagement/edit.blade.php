@@ -19,7 +19,7 @@
                                 class="feather icon-home"></i></a></li>
                     <li class="breadcrumb-item active"> Chỉnh sửa @if ($user->phanQuyen == 3)
                             Admin {{ $user->hoTen }}
-                        @elseif ($user->phanQuyen == 2)
+                        @elseif ($user->phanQuyen == 1)
                             nhân viên {{ $user->hoTen }}
                         @else
                             giảng viên {{ $user->hoTen }}
@@ -30,7 +30,7 @@
             <div class="card mb-4">
                 <h6 class="card-header">Chỉnh sửa @if ($user->phanQuyen == 3)
                         Admin ( {{ $user->hoTen }} )
-                    @elseif ($user->phanQuyen == 2)
+                    @elseif ($user->phanQuyen == 1)
                         nhân viên ( {{ $user->hoTen }} )
                     @else
                         giảng viên ( {{ $user->hoTen }} )
@@ -94,8 +94,8 @@
                                 <label class="form-label">Phân quyền</label>
                                 <select name="phanQuyen" class="custom-select">
                                     <option value="3"{{ $user->phanQuyen == 3 ? 'selected' : '' }}>Admin</option>
-                                    <option value="2"{{ $user->phanQuyen == 2 ? 'selected' : '' }}>Nhân viên</option>
-                                    <option value="1"{{ $user->phanQuyen == 1 ? 'selected' : '' }}>Giảng viên</option>
+                                    <option value="2"{{ $user->phanQuyen == 2 ? 'selected' : '' }}>Giảng viên</option>
+                                    <option value="1"{{ $user->phanQuyen == 1 ? 'selected' : '' }}>Nhân viên</option>
                                 </select>
                             </div>
 

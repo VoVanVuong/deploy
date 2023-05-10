@@ -71,7 +71,7 @@ class CommentController extends Controller
 
         $reply->save();
 
-        return response()->json(['message' => 'Bình luận thành công', 'data' => $reply]);
+        return response()->json(['message' => 'Trả lời bình luận thành công', 'data' => $reply]);
 
     }
 

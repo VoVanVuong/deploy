@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\UpdateUserRequest;
 use App\Http\Requests\UserRequest;
 use App\Models\User;
 use file;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Storage;
@@ -73,16 +73,31 @@ class AddUserController extends Controller
 
     }
 
-    public function userUpdate(Request $request, $id)
+    public function userUpdate(UpdateUserRequest $request, $id)
     {
 
-        if ($request->file('avatar')) {
+        $user = User::find($id);
+        $data = [
+            'hoTen' => $request->hoTen,
+            'email' => $request->email,
+            'soDienThoai' => $request->soDienThoai,
+            'ngaySinh' => date('Y-m-d', strtotime($request->ngaySinh)),
+            'gioiTinh' => $request->gioiTinh,
+            'diaChi' => $request->diaChi,
+            'trangThai' => $request->trangThai,
+            'phanQuyen' => $request->phanQuyen,
+        ];
 
-            dd('oke');
-
-        } else {
-            dd('cc');
+        if ($request->avatar) {
+            $image = $request->file('avatar');
+            $path = Storage::disk('google')->putFileAs('/', $image, $image->getClientOriginalName());
+            $url = Storage::disk('google')->url($path);
+            $data['avatar'] = $url;
         }
+
+        $user->update($data);
+
+        return redirect()->back()->with('success', 'Cập nhật thành công');
 
     }
 

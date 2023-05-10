@@ -91,7 +91,7 @@
                                                             @endif
                                                         </td>
                                                         <td style=" display: table-cell; vertical-align: middle; ">
-                                                            <a href="#">
+                                                            <a href="{{ route('user-edit', ['id' => $user->id]) }}">
                                                                 <button type="button"
                                                                     class="btn icon-btn btn-sm btn-outline-secondary">
                                                                     <span class="feather icon-edit-1"></span>
