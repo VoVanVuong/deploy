@@ -13,7 +13,7 @@ class SearchController extends Controller
         $query = $request->input('search');
 
         $courses = Course::where('tenKhoaHoc', 'LIKE', "%$query%")
-            ->with('searchCourseUser')
+            ->with('instructor')
             ->get();
 
         return response()->json(['courses' => $courses]);
