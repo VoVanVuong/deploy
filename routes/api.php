@@ -6,6 +6,7 @@ use App\Http\Controllers\API\CommentController;
 use App\Http\Controllers\API\EvaluateController;
 use App\Http\Controllers\API\LessonController;
 use App\Http\Controllers\API\LoginRegisterController;
+use App\Http\Controllers\API\PayBillController;
 use App\Http\Controllers\API\SearchController;
 use App\Http\Controllers\API\TeachersController;
 use Google\Client as GoogleClient;
@@ -78,6 +79,13 @@ Route::middleware('cors')->group(function () {
 
         //Reply to comment
         Route::post('lesson/{id}/comments/{commentId}/replies', [CommentController::class, 'createReply']);
+
+        // Pay bills
+        Route::post('pay/{id}/bills', [PayBillController::class, 'createPayBills']);
+
+        Route::get('get/myCourse', [PayBillController::class, 'getMyCourse']);
+
+        Route::post('post/course/activationCode', [PayBillController::class, 'postActivationCode']);
 
     });
 

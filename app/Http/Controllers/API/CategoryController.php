@@ -185,6 +185,7 @@ class CategoryController extends Controller
         }])->findOrFail($id);
 
         $course->instructor;
+
         return response()->json(['data' => $course]);
     }
     /*
