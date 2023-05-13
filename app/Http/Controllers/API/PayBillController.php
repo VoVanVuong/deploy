@@ -81,35 +81,43 @@ class PayBillController extends Controller
      */
     public function getMyCourse()
     {
-        $myCourse = MyCourse::where('user_id', $this->userId->returnUserId())->first();
+        $myCourses = MyCourse::where('user_id', $this->userId->returnUserId())->get();
 
-        if ($myCourse && $myCourse->trangThai === 0) {
-            $getMyCourse = $myCourse->with(['myChapter' => function ($query) {
+        if ($myCourses->isEmpty()) {
+            return response()->json(['error' => 'Bạn chưa mua khóa học'], 422);
+        }
+
+        $courses = [];
+
+        foreach ($myCourses as $course) {
+            $getMyCourse = $course->with(['myChapter' => function ($query) {
                 $query->select(['id', 'tenChuongHoc', 'trangThai', 'giaoVienID', 'my_course_id'])
                     ->with('myLessons');
-            }])->findOrFail($myCourse->id);
+            }])->findOrFail($course->id);
 
-            return response()->json(['data' => $getMyCourse]);
-
-        } else {
-
-            return response()->json(['error' => 'Hãy kích hoạt mã hoặc mua khóa học'], 422);
+            $courses[] = $getMyCourse;
         }
+
+        return response()->json(['data' => $courses]);
     }
 
-    public function postActivationCode(Request $request)
+    /*
+    post Activation Code
+     */
+    public function postActivationCode(Request $request, $id)
     {
-        $myCourse = MyCourse::where('user_id', $this->userId->returnUserId())->first();
-
+        $myCourse = MyCourse::where('id', $id)
+            ->where('user_id', $this->userId->returnUserId())
+            ->first();
         $activationCode = $request->input('activation_code');
-
+        if ($myCourse->trangThai == 0) {
+            return response()->json(['error' => 'Khóa học đã được kích hoạt'], 422);
+        }
         if ($activationCode && $activationCode === $myCourse->maKichHoat) {
             $myCourse->trangThai = 0;
             $myCourse->save();
-
             return response()->json(['message' => 'Kích hoạt mã thành công'], 200);
         }
-
         return response()->json(['error' => 'Mã kích hoạt không chính xác'], 422);
 
     }

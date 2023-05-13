@@ -85,7 +85,7 @@ Route::middleware('cors')->group(function () {
 
         Route::get('get/myCourse', [PayBillController::class, 'getMyCourse']);
 
-        Route::post('post/course/activationCode', [PayBillController::class, 'postActivationCode']);
+        Route::post('post/course/{id}/activationCode', [PayBillController::class, 'postActivationCode']);
 
     });
 
